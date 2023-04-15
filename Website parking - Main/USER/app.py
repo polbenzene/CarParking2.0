@@ -75,6 +75,33 @@ def login():
     # Handle GET requests
     return render_template('login.html')
 
+@app.route('/send-otp', methods=['POST'])
+def send_otp():
+    email = request.form.get('email')
+    
+    #generates a random 6-digit OTP
+    otp = str(random.randint(100000, 999999))
+    
+    #check email in db
+    db = get_db()
+    db.execute('SELECT * FROM users WHERE email = ?', (email))
+    user = db.fetchone()
+    if not user:
+        return 'Email not found in database.'
+
+    #Sending OTP to user's email
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login("your_email_address", "your_email_password")
+    message = f"Your OTP is: {otp}"
+    server.sendmail("your_email_address", email, message)
+    server.quit()
+
+    return 'OTP sent successfully.'
+
+if __name__ == '__main__':
+    app.run(debug = True)
+
 @app.route('/forgotpass')
 def forgotpass():
     return render_template('forgotpass.html')

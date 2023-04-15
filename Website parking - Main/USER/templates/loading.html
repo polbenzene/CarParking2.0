@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.cdnfonts.com/css/roboto" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/josefin-sans" rel="stylesheet">
+    <script>
+      setTimeout(function() {
+        document.getElementById('idiot').setAttribute('src', '{{ url_for("static", filename="logg.jpg") }}');
+      }, 3000);
+
+      setTimeout(function() {
+        var progressBarContainer = document.getElementById('progress-bar-container');
+        progressBarContainer.style.display = 'block'; // show the progress bar container
+        var progressBar = document.getElementById('progress-bar');
+        var progress = 0;
+        var interval = setInterval(function() {
+            progress += 10;
+            progressBar.style.width = progress + '%';
+            if (progress >= 100) {
+            clearInterval(interval);
+            document.getElementById('idiot').style.display = 'none'; // hide the new image
+            document.getElementById('progress-bar-container').style.display = 'none'; // hide the progress bar container
+            document.getElementById('login').style.display = 'block'; // show the login page
+            }
+        }, 500);
+        }, 3000);
+    </script>
+    <style>
+      #login {
+        display: none;   
+      }
+      fieldset{
+        width: 35%;
+        height: 90%;
+        float: right;
+        padding: 70px;
+        background-color: #f7edde;
+        border: 1px solid #4F4F4F;
+        border-radius: 5px;
+      }
+      #button{
+        background-color: #890B1C;
+        color: white;
+        border-radius: 20px;
+        border-style: none;
+        box-shadow: #4F4F4F;
+        width: 100px;
+        height: 30px;
+        font-family: Josefin Sans, sans-serif;
+        justify-self: center;
+      }
+      #progress-bar-container {
+        display: none;
+        width: 100%;
+        height: 10px;
+        background-color: #eee;
+        margin-top: 10px;
+      }
+      #progress-bar {
+        width: 0%;
+        height: 100%;
+        background-color: #000000;
+      }
+      a.button {
+        display: inline-block;
+        background-color: #890B1C;
+        color: white;
+        border-radius: 20px;
+        border-style: none;
+        box-shadow: #4F4F4F;
+        width: 100px;
+        height: 30px;
+        font-family: Josefin Sans, sans-serif;
+        text-align: center;
+        line-height: 30px;
+        margin-top: 10px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="splash-screen">
+      <img id="idiot" src="{{url_for('static',filename='qrlog.jpg')}}" alt="My Website Logo">
+      <div id="progress-bar-container">
+        <div id="progress-bar"></div>
+        <div id="progress-text" style="text-align: center;">Loading...</div>
+      </div>
+    </div>
+    
+    {% include 'login.html' %}
+    
+  </body>
+</html>

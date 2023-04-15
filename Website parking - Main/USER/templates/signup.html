@@ -1,0 +1,23 @@
+<fieldset>
+    <form method="post" action="{{ url_for('signup') }}">
+        <label for="name">Name</label>
+        <input class="input" id="name" type="text" name="name" placeholder="Name">
+
+        <label for="platenumber">Plate Number</label>
+        <input class="input" id="platenumber"  type="text" name="platenumber" placeholder="Platenumber">
+
+        <label for="email">Email Address</label>
+        <input class="input" id="email"  type="email" name="email" placeholder="Email">
+
+        <label for="phone">Phone Number</label>
+        <input class="input" id="phone"  type="tel" name="phone" placeholder="Contact">
+
+        <label for="password">Password</label>
+        <input class="input" id="password"  type="password" name="password" placeholder="Password">
+
+        <label for="conpassword">Confirm Password</label>
+        <input class="input" id="conpassword"  type="password" name="conpassword" placeholder="Conpassword">
+
+        <button type="submit" class="button is-success">Sign up</button>
+    </form>
+</fieldset>

@@ -3,12 +3,14 @@ import os
 import sqlite3
 import qrcode
 import base64
+from twilio.rest import Client
+import random
 from io import BytesIO
 from pathlib import Path
 
 
-
 #if you want to use the save info in the database the url must be http://localhost:5001/login
+
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -44,8 +46,9 @@ def index():
 @app.route('/userview')
 def userview():
     if g.user:
-        return render_template('index.html', user=session['user'])
+        return render_template('index.html', user=session['user'], logout=True)
     return redirect(url_for('index'))
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -79,6 +82,7 @@ def login():
 def forgotpass():
     return render_template('forgotpass.html')
 
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -87,6 +91,10 @@ def signup():
         email = request.form['email']
         phone = request.form['phone']
         password = request.form['password']
+        conpassword = request.form['conpassword']
+
+        if password != conpassword:
+            return render_template('signup.html', error='Passwords do not match')
 
         db = get_db()
 
@@ -100,6 +108,7 @@ def signup():
             return render_template('signup.html', error='Username already exists')
 
     return render_template('signup.html')
+
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
@@ -139,8 +148,6 @@ def generate_qrcode():
     return render_template('qrcode.html', img_b64=img_b64)
 
 
-
-
 @app.route('/download_qrcode', methods=['POST'])
 def download_qrcode():
     downloads_dir = Path.home() / "Downloads"
@@ -159,73 +166,37 @@ def download_qrcode():
     return send_file(qrcode_path, as_attachment=True)
 
 
+# Twilio account SID and auth token
+account_sid = 'your_account_sid'
+auth_token = 'your_auth_token'
+
+@app.route('/send-otp', methods=['POST'])
+def send_otp():
+    phone_number = request.form.get('phone')
+
+    # generates a random 6-digit OTP
+    otp = str(random.randint(100000, 999999))
+
+    # check phone number in db
+    db = get_db()
+    db.execute('SELECT * FROM users WHERE phone = ?', (phone_number,))
+    user = db.fetchone()
+    if not user:
+        return 'Phone number not found in database.'
+
+    # Sending OTP to user's phone
+    client = Client(account_sid, auth_token)
+    message = client.messages.create(
+        body=f"Your OTP is: {otp}",
+        from_='+1 Twilio phone number',
+        to=phone_number
+    )
+
+    return 'OTP sent successfully.'
+
+
 
 if __name__ == '__main__':
     app.run(port=5001)
 
-    """"
-@app.route('/download_qrcode', methods=['POST'])
-def download_qrcode():
-    db = get_db()
-    cur = db.execute('SELECT * FROM users WHERE username = ?', [g.user])
-    user = cur.fetchone()
-    
-    # Get the path to the user's downloads folder
-    home_dir = os.path.expanduser("~")
-    downloads_dir = os.path.join(home_dir, "Downloads")
-
-    # Create the full path to the QR code image file
-    qrcode_path = os.path.join(downloads_dir, "qrcode.png")
-    
-    # Generate the QR code and save it to the downloads folder
-    data = f"Username: {user['username']}, Plate Number: {user['platenumber']}, Email: {user['email']}, Phone: {user['phone']}"
-    img = qrcode.make(data)
-    img.save(qrcode_path)
-
-    # Return a response to download the QR code image file
-    return send_file(qrcode_path, as_attachment=True)
-"""
-
-""""
-@app.route('/download_qrcode', methods=['GET', 'POST'])
-def download_qrcode():
-    if request.method == 'POST':
-        db = get_db()
-        cur = db.execute('SELECT * FROM users WHERE username = ?', [g.user])
-        user = cur.fetchone()
-        data = f"Username: {user['username']}, Plate Number: {user['platenumber']}, Email: {user['email']}, Phone: {user['phone']}"
-        img = qrcode.make(data)
-        img_io = io.BytesIO()
-        img.save(img_io, 'PNG')
-        img_io.seek(0)
-        path = os.path.join(os.path.expanduser("~"), "Downloads", "qrcode.png")
-        img_io.save(path)
-        return send_from_directory(directory=os.path.join(os.path.expanduser("~"), "Downloads"), filename="qrcode.png", as_attachment=True)
-    else:
-        return render_template('qrcode.html')
-"""
-
-""""
-@app.route('/download_qrcode')
-def download_qrcode():
-    db= get_db()
-    cur = db.execute('SELECT * FROM users WHERE username = ?', [g.user])
-    user = cur.fetchone()
-    data = f"Username: {user['username']}, Plate Number: {user['platenumber']}, Email: {user['email']}, Phone: {user['phone']}"
-    img = qrcode.make(data)
-    img.save('static/qrcode.png')
-    return render_template('qrcode.html')
-
-"""
-#save qrcode as a file in static folder
-""""
-@app.route('/qrcode')
-def generate_qrcode():
-    db = get_db()
-    cur = db.execute('SELECT * FROM users WHERE username = ?', [g.user])
-    user = cur.fetchone()
-    data = f"Username: {user['username']}, Plate Number: {user['platenumber']}, Email: {user['email']}, Phone: {user['phone']}"
-    img = qrcode.make(data)
-    img.save('static/qrcode.png')
-    return render_template('qrcode.html')
-"""
+   

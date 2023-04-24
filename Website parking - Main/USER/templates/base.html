@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Smart Parking</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='parking.ico') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add any CSS or JavaScript files needed -->
+    <style>
+      body{
+                margin: 0;
+                padding: 0;    
+                background-color: #C4CAD0;    }
+            nav{
+                margin: 0 auto 5px auto;
+                background-color: white;
+                width: 100vw;
+                height: auto;
+                display: grid;
+                grid-template-columns: 15% 70% 15%;
+                box-shadow: 1px 2px 4px 1px rgba(0,0,0,0.2)    }
+            nav p{
+                font-size: 30px;
+                font-weight: bold;
+                display: inline-block;
+                text-align: center;    }
+            nav img{
+                margin: auto;
+                width: 60px;
+                height: 60px;
+                border-radius: 100%;
+                box-shadow: 1px 2px 4px 1px rgba(0,0,0,0.2)    }
+            .dropdown {
+                position: relative;
+                display: inline-block;
+                margin: 0 auto;    }
+            .dropdown .dropbtn {
+                font-size: 16px;
+                border: none;
+                outline: none;
+                color: white;
+                padding: 16px 16px 14px 16px;
+                background-color: inherit;
+                cursor: pointer;
+                font-family: inherit; /* Important for vertical align on mobile phones */
+                margin: 0; /* Important for vertical align on mobile phones */    }
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                right: 0;
+                background-color: #f9f9f9;
+                width: auto;
+                border-radius: 10%;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;    }
+            .dropdown-content a {
+                float: none;
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+                text-align: center;
+                border-radius: 10%;    }
+            .dropdown-content hr{
+                margin: 0;    }
+            .dropdown-content a:hover {
+                background-color: #ddd;    }
+            .dropdown:hover .dropdown-content {
+                display: block;    }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <img src="{{url_for('static',filename='logo.png')}}" alt="LOGO"> <!--logo.png-->
+            {% block title %}<p>Parking Space | Live View</p> {% endblock %}
+            <div class="dropdown" style="float: right;">
+                <button class="dropbtn"><img src="{{url_for('static',filename='user.png')}}"></button> <!--user.png-->
+                <div class="dropdown-content">
+                    <a href="{{ url_for('profile') }}">Profile</a>
+                    <a href="{{ url_for('login') }}">Log Out</a>
+                </div>
+            </div>
+    </nav>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+    <footer>
+      Copyright 2023 
+    </footer>
+  </body>
+</html>

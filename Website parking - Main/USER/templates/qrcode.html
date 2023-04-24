@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code</title>
+</head>
+<body>
+    {% block title %}<p>QR Code</p> {% endblock %}
+    {% block content %}
+    <img src="data:image/png;base64,{{ img_b64 }}" alt="QR Code">
+    <br><br>
+    <form action="/download_qrcode" method="post">
+        <button type="submit">Download QR Code</button>
+    </form>
+    {% endblock %}
+</body>
+</html>

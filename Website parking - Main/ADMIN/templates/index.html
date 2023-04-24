@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/index.css')}}">-->
+        <title>Smart Parking</title>
+        <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='parking.ico') }}">
+        <style>
+            body{
+                margin: 0;
+                padding: 0;    
+                background-color: #C4CAD0;    }
+            nav{
+                margin: 0 auto 5px auto;
+                background-color: white;
+                width: 100vw;
+                height: auto;
+                display: grid;
+                grid-template-columns: 15% 70% 15%;
+                box-shadow: 1px 2px 4px 1px rgba(0,0,0,0.2)    }
+            nav p{
+                font-size: 30px;
+                font-weight: bold;
+                display: inline-block;
+                text-align: center;    }
+            nav img{
+                margin: auto;
+                width: 60px;
+                height: 60px;
+                border-radius: 100%;
+                box-shadow: 1px 2px 4px 1px rgba(0,0,0,0.2)    }
+            .dropdown {
+                position: relative;
+                display: inline-block;
+                margin: 0 auto;    }
+            .dropdown .dropbtn {
+                font-size: 16px;
+                border: none;
+                outline: none;
+                color: white;
+                padding: 16px 16px 14px 16px;
+                background-color: inherit;
+                cursor: pointer;
+                font-family: inherit; /* Important for vertical align on mobile phones */
+                margin: 0; /* Important for vertical align on mobile phones */    }
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                right: 0;
+                background-color: #f9f9f9;
+                width: auto;
+                border-radius: 10%;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;    }
+            .dropdown-content a {
+                float: none;
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+                text-align: center;
+                border-radius: 10%;    }
+            .dropdown-content hr{
+                margin: 0;    }
+            .dropdown-content a:hover {
+                background-color: #ddd;    }
+            .dropdown:hover .dropdown-content {
+                display: block;    }
+            .tab {
+                overflow: hidden;
+                border: 1px solid #ccc;
+                background-color: #f1f1f1;
+                height: 50px;    }
+                /* Style the buttons that are used to open the tab content */
+            .tab button {
+                background-color: inherit;
+                float: left;
+                font: 1em 'Noto Serif';
+                width: 50%;
+                height: 50px;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                transition: 0.3s;   }
+                /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;    }
+            #live {
+                background-color: #573280;
+                color: white;    }
+
+            .video{
+                height: auto;
+                width: auto;
+                border-radius: 5px;
+            }
+
+            .reloaded{
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr ;
+                grid-template-rows: auto;
+                align-items: center;
+            }
+
+            .indicator{
+                justify-self: right;
+            }
+
+            .indicatorGreen{
+                height: 18px;
+                width: 18px;
+                background-color: #2cdd29;
+                border-radius: 50%;
+            }
+
+            .indicatorRed{
+                height: 18px;
+                width: 18px;
+                background-color: #dd2b29;
+                border-radius: 50%;
+            }
+
+            .open, .taken{
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                align-items: center;
+                text-align: center;
+            }
+
+            .total{
+                align-items: center;
+                text-align: center;
+            }
+
+            #count, #occupied{
+                justify-self: left;
+            }
+
+            .vidContainer{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #videoFeed{
+                background-color: white;
+                width: 35vw;
+            }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <img src="{{url_for('static',filename='logo.png')}}" alt="LOGO"> <!--logo.png-->
+            <p>BatStateU TNEU Parking - Admin View</p>
+            <div class="dropdown" style="float: right;">
+                <button class="dropbtn"><img src="{{url_for('static',filename='user.png')}}"></button> <!--user.png-->
+                <div class="dropdown-content">
+                    <a href="{{ url_for('display_user_data') }}">User Database</a>
+                    <hr>
+                    <a href="#">Log Out</a>
+                </div>
+            </div>
+        </nav>
+        <main>
+            {% block content %}
+            <div class="content-layout">
+                <div class="tab">
+                    <a href = "{{ url_for('adminview') }}"><button id="live" >Live View</button></a>
+                    <a href = "{{ url_for('users') }}"><button id="list" >Users</button></a>  
+                </div>
+                <div class = "video">
+                    <div class="reloaded">
+                        <div class="open">
+                            <div class="indicator"><div class="indicatorGreen"></div></div>
+                            <p>Available Space: <span id="available-space"></span></p>
+                        </div>
+                        <div class="taken">
+                            <div class="indicator"><div class="indicatorRed"></div></div>
+                            <p>Occupied Space:<span id="occupied-space"></span></p>
+                        </div>
+                        <div class="total"><p>Total Spaces: &nbsp&nbsp&nbsp24</p></div>    
+                    </div>
+                    <div class="vidContainer">
+                        <img id="videoFeed" src="{{ url_for('video') }}"/>
+                    </div>
+                </div>
+            </div>
+            {% endblock%}
+        </main>
+    </body>
+</html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  setInterval(function() {
+    $.get("/count", function(data) {
+      $("#available-space").text(data);
+    });
+    $.get("/occupied", function(data) {
+      $("#occupied-space").text(data);
+    });
+  }, 500);
+});
+</script>

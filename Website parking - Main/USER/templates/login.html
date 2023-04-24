@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Smart Parking</title>
+        <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='parking.ico') }}">
+            <style>
+                body{
+                    margin: 0px;
+                    padding: 0px;
+                    background-color: #EEF0F2;  
+                    font-family: 'Noto Serif', 'Serif';   }
+                #placement{
+                    margin: auto;    }
+                #logo-holder{
+                    width: auto;
+                    height: auto;   }
+                #logo-image{
+                    width: 15%;
+                    height: auto;   
+                    margin: 5vh calc((100% - 15%)/2);
+                    border-radius: 100%;
+                    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2);    }
+                #login{
+                    margin: -9% calc((100vw - 60vw)/2) 0px calc((100vw - 60vw)/2);
+                    background-color: #C4CAD0;
+                    text-align: center;    
+                    width: 60vw;
+                    height: auto;
+                    border-radius: 20px;
+                    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2);   }
+                #login h1{
+                    text-align: center;    
+                    padding-top: 10%;    }
+                #login fieldset{
+                    border: none;    }
+                #login fieldset form{
+                    display: grid;
+                    grid-template-rows: auto auto auto auto;    
+                    row-gap: 10px;    }
+                .input{
+                    background-color: white;
+                    width: 30vw;
+                    height: 30px;
+                    margin: auto;
+                    border: none;
+                    border-radius: 8px;
+                    font-family: 'Noto Serif', 'Serif';    }
+                .button{
+                    background-color: #23022E;
+                    color: white;
+                    font: 15px 'Noto Serif';
+                    width: 20vw;
+                    border: none;
+                    border-radius: 12px;
+                    margin: 40px auto;
+                    padding: 10px 0px 16px 0px;
+                    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2)        }
+                .signup{
+                    background-color:#573280;
+                    text-decoration: none;    }
+                .row-container{
+                    display: grid;
+                    grid-template-columns: auto auto;    }
+                .row3{
+                    font-size: 14px;    }    
+                .row3 #forgot{
+                    text-decoration: none;
+                    color: black;
+                    font-weight: bold;    }
+              
+                @media screen and (max-width: 800px){
+                    *{  background-color: #C4CAD0;    }
+                    #logo-image{
+                        width: 40vw;
+                        height: auto;  
+                        margin: 5vh calc((100% - 40vw)/2);    }
+                    #login{
+                        margin: 0;
+                        box-shadow: none;
+                        margin: auto;
+                    }
+                    #login fieldset{
+                        margin: 0;
+                        padding: 0;
+                    }
+                    #login fieldset form{
+                        display: grid;
+                        grid-template-columns: 100%;
+                        grid-template-rows: auto auto auto auto;
+                        justify-items: center;
+                        row-gap: 1vh;    }
+                    .input{
+                        width: 50vw;    }
+                    .row3{
+                        display: grid;
+                        grid-template-columns: auto;
+                        grid-template-rows: auto auto;    }
+                    .row3 #forgot{
+                        padding-top: 5vh;
+                        text-decoration: none;
+                        color: black;
+                        font-weight: bold;    }
+                    .row4{
+                        padding-top: 5vh;
+                        column-gap: calc((100vw - 20vw)/4);    }
+                }
+            </style>
+    </head>
+    <body>
+    <div id="placement">
+      <div id="logo-holder">
+          <img id="logo-image" src="{{url_for('static',filename='logo.png')}}">
+          <span> </span>
+      </div>
+      <div id="login">
+          <h1>Login as User</h1>
+          <fieldset>
+            <form method="post" action="{{ url_for('login') }}">
+              <input class="input" type="text" name="username" placeholder=" Name">
+              <input class="input" type="password" name="password" id="password" placeholder=" Password">
+              <span class="row-container row3">
+                  <label>
+                      <input type="checkbox" name="remember_me">Keep me signed in
+                      <input type="checkbox" id="showpassword" name="showpassword" onchange="togglePassword()">Show Password
+                  </label>                    
+                  <a id="forgot" href="{{ url_for('forgotpass') }}">Forgot Password?</a>
+              </span>
+              <span class="row-container row4">
+                  <button type="submit" class="button">Login</button>
+                  <a href="{{ url_for('signup') }}" class="button signup">Sign up</a>
+              </span>
+            </form>
+          </fieldset>
+      </div>
+    </div>
+    </body>
+    <script>
+        function togglePassword() {
+          var password = document.getElementById("password");
+          var showPassword = document.getElementById("showpassword");
+          if (showPassword.checked) {
+            password.type = "text";
+          } else {
+            password.type = "password";
+          }
+        }
+    </script>   
+</html>

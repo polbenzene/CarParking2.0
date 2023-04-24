@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password</title>
+    <style>
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="otp-form">
+      <h1>OTP was sent to your email</h1>
+      <h4>Please check your inbox or spam</h4>
+      <form action="/verify_otp" method="POST">
+
+        <input type="text" id="number1" name="number1" maxlength="1" required>
+        <br><br>
+        <input type="text" id="number2" name="number2" maxlength="1" required>
+        <br><br>
+        <input type="text" id="number3" name="number3" maxlength="1" required>
+        <br><br>
+        <input type="text" id="number4" name="number4" maxlength="1" required>
+        <br><br>
+        <input type="text" id="number5" name="number5" maxlength="1" required>
+        <br><br>
+        <input type="text" id="number6" name="number6" maxlength="1" required>
+        <br><br>
+        <button type="submit" id="submit-otp-btn">Submit</button>
+      </form>
+    </div>
+<script>
+        const otpInputs = document.querySelectorAll('#otp-form input');
+        otpInputs.forEach((input, index) => {
+          input.addEventListener('keyup', () => {
+            // If the input value is not empty and the input is not the last one
+            if (input.value !== '' && index < otpInputs.length - 1) {
+              // Move the focus to the next input field
+              otpInputs[index + 1].focus();
+            }
+          });
+        });
+      
+</script>
+      
+    

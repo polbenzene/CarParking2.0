@@ -1,0 +1,128 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous">
+
+<style>
+            body{
+                margin: 0px;
+                padding: 0px;
+                background-color: #EEF0F2;  
+                font-family: 'Noto Serif', 'Serif';   }
+            .placement{
+                margin: auto;    }
+            #logo{
+                width: auto;
+                height: auto;   }
+            #logo-image{
+                width: 15%;
+                height: auto;   
+                margin: 5vh calc((100% - 15%)/2);
+                border-radius: 100%;
+                box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2);    }
+            .signup{
+                margin: -9% calc((100vw - 60%)/2) 0px calc((100vw - 60%)/2);
+                background-color: #C4CAD0;
+                text-align: center;    
+                width: 60%;
+                height: auto;
+                border-radius: 20px;
+                box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2);   }
+            .signup h1{
+                text-align: center;    
+                padding-top: 10%;    }
+            .signup-field{
+                border: none;    }
+            .signup-field form{
+                display: grid;
+                grid-template-rows: auto auto auto auto auto auto auto;    
+                row-gap: 10px;    }
+            .input{
+                background-color: white;
+                width: 30vw;
+                height: 30px;
+                margin: auto;
+                border: none;
+                border-radius: 8px;
+                font-family: 'Noto Serif', 'Serif';    }
+            .button{
+                background-color:#573280;
+                color: white;
+                font: 15px 'Noto Serif';
+                width: 20vw;
+                border: none;
+                border-radius: 12px;
+                margin: 40px auto;
+                padding: 10px 0px 16px 0px;
+                box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2)        }
+
+            @media screen and (max-width: 800px){
+                *{
+                    background-color: #C4CAD0;    }
+                #logo-image{
+                    width: 40vw;
+                    height: auto;  
+                    margin: 5vh calc((100% - 40vw)/2);    }
+                .signup{
+                    margin: 0 calc(100vw - 60%)/2;
+                    box-shadow: none;
+                    margin: auto;
+                }
+                .signup h1{
+                    padding: 0;
+                    font-size: 3vh;
+                }
+                .signup-field form{
+                    display: grid;
+                    grid-template-columns: auto;
+                    grid-template-rows: auto auto auto auto;
+                    justify-items: center;
+                    row-gap: 1vh;    }
+                .input{
+                    width: 50vw;    }
+                .signup-field .button{
+                    margin-top: 40px;    }
+            }
+</style>
+<div class="placement">
+  <div id="logo">
+      <img id="logo-image" src="{{url_for('static',filename='logo.png')}}">
+      <span> </span>
+  </div>
+  <div class="signup">
+      <h1>Create Account</h1>
+      <fieldset class="signup-field">
+          <form method="post" action="{{ url_for('signup') }}">
+              <input class="input" id="name" type="text" name="name" placeholder=" Name: Juan A. Dela Cruz " required>
+      
+              <input class="input" id="platenumber" type="text" name="platenumber" placeholder=" Plate No.: PKT6785" pattern="[A-Z]{3}\d{4}" title="The letters must be in capital."required >
+      
+              <input class="input" id="email"  type="email" name="email" placeholder=" Email" required>
+      
+              <input class="input" id="phone" type="tel" name="phone" placeholder=" Cell No.: 09*********" pattern="09[0-9]{9}" title="Phone number must 11 numbers long and start with 09"required>
+      
+              <input class="input" id="password" type="password" name="password" placeholder=" Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.*\s).{8,}" title="Must contain at least one number, one uppercase letter, one lowercase letter, one special character, and be at least 8 or more characters long." required>
+      
+              <input class="input" id="conpassword" type="password" name="conpassword" placeholder=" Confirm password" required>
+              <input type="checkbox" id="showpassword" name="showpassword" onchange="togglePassword()">Show Password<br><br>
+              <div class="error-message" style="display:none;"></div>
+      
+              <button type="submit" class="button is-success">Sign up</button>
+          
+          </form>
+      </fieldset>
+  </div>
+</div>
+</body>
+<script>
+  function togglePassword() {
+    var password = document.getElementById("password");
+    var conpassword = document.getElementById("conpassword");
+    if (document.getElementById("showpassword").checked) {
+      password.type = "text";
+      conpassword.type = "text";
+    } else {
+      password.type = "password";
+      conpassword.type = "password";
+    }
+  }
+</script>
+</html>

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}<p>Profile</p> {% endblock %}
+{% block content %}
+  <h1>Profile</h1>
+    <body>
+      <h1>Welcome {{ user.username }}</h1>
+
+      <p>Username: {{ user.username }}</p>
+
+      <p>License Plate Number: {{ user.platenumber }}</p>
+
+      <p>Email: {{ user.email }}</p>
+
+      <p>Phone: {{ user.phone }}</p>
+
+      <form method="post" action="{{ url_for('profile') }}">
+
+        <label for="email">Email:</label>
+
+        <input type="email" name="email" value="{{ user.email }}" />
+        <br><br>
+
+        <label for="phone">Phone:</label>
+
+        <input type="tel" name="phone" value="{{ user.phone }}" />
+        <br><br>
+
+        <label for="platenumber">License Plate Number:</label>
+
+        <input type="text" name="platenumber" value="{{ user.platenumber }}" />
+        <br><br>
+
+        <input type="submit" value="Update" />
+       </form>
+
+       <form action="{{ url_for('logout') }}" method="post">
+        <button type="submit" class="btn btn-primary">Logout</button>
+      </form>
+       
+       <form method="post" action="{{ url_for('generate_qrcode') }}">
+        <button type="submit" class="btn btn-primary">Generate QR Code</button>
+      </form>
+    
+    </body>
+{% endblock %}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Parking</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='parking.ico') }}">
+    <script>
+      setTimeout(function() {
+        document.getElementById('idiot').setAttribute('src', '{{ url_for("static", filename="logg.jpg") }}');
+      }, 3000);
+
+      setTimeout(function() {
+        var progressBarContainer = document.getElementById('progress-bar-container');
+        progressBarContainer.style.display = 'block'; // show the progress bar container
+        var progressBar = document.getElementById('progress-bar');
+        var progress = 0;
+        var interval = setInterval(function() {
+            progress += 10;
+            progressBar.style.width = progress + '%';
+            if (progress >= 100) {
+            clearInterval(interval);
+            document.getElementById('idiot').style.display = 'none'; // hide the new image
+            document.getElementById('progress-bar-container').style.display = 'none'; // hide the progress bar container
+            document.getElementById('placement').style.display = 'block'; // show the login page
+            }
+        }, 500);
+        }, 3000);
+    </script>
+    <style>
+      body{
+        margin: 0;
+        padding: 0;
+        background-color: #EEF0F2;  }
+      #placement {
+        display: none;  }
+      #idiot{
+        width: 500px;
+        height: 500px;
+        margin: 4vh calc((100vw - 500px)/2);  }
+      #progress-bar-container {
+        display: none;
+        width: 70vw;
+        height: 5vh;
+        background-color: #e5dcdc;
+        border-radius: 25px;
+        margin-top: 10px;
+        margin-left: calc((100vw - 70vw)/2);  }
+      #progress-bar {
+        width: 0%;
+        height: 100%;
+        border-radius: 25px;
+        background-color: #010101;  }
+    </style>
+  </head>
+  <body>
+    <div id="splash-screen">
+      <img id="idiot" src="{{url_for('static',filename='logo.png')}}" alt="My Website Logo">
+      <div id="progress-bar-container">
+        <div id="progress-bar"></div>
+        <div id="progress-text" style=" font:'Noto Serif'; text-align: center;">Loading...</div>
+      </div>
+    </div>
+    
+    {% include 'login.html' %}
+    
+  </body>
+</html>

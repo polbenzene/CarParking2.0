@@ -1,0 +1,48 @@
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+		th, td {
+			padding: 8px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+		th {
+			background-color: #f2f2f2;
+		}
+	</style>
+<body>
+	{% extends 'index.html' %}
+	{% block content %}
+	<div class="tab">
+		<a href = "{{ url_for('index') }}"><button id="live" style="background-color: inherit; color: black;">Live View</button></a>
+		<a href = "{{ url_for('users') }}"><button id="list" style="background-color: #573280; color: white;">Users</button></a>  
+	</div>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Email Address</th>
+				<th>Plate Number</th>
+				<th>Phone Number</th>
+				<th>Time In</th>
+				<th>Time Out</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for user in users.values() %}
+				<tr>
+					<td>{{ user.Name }}</td>
+					<td>{{ user['Email Address'] }}</td>
+					<td>{{ user['Plate Number'] }}</td>
+					<td>{{ user['Phone Number'] }}</td>
+					<td>{{ user['Time In'] }}</td>
+					<td>{{ user['Time Out'] }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% endblock %}
+</body>
+</html>

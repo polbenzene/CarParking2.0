@@ -1,5 +1,5 @@
 from flask import Flask, render_template, session, request, g 
-from flask import redirect, url_for, send_file, flash, jsonify
+from flask import redirect, url_for, send_file, flash, make_response
 import os
 import sqlite3
 import qrcode
@@ -27,10 +27,34 @@ def get_db():
         db.commit()
     return db
 
-@app.route('/logout', methods=['POST'])
+@app.route('/logout', methods=['GET', 'POST'])
 def logout():
+    session.pop('user_id', None)
     session.pop('user', None)
+    session.pop('remember_me', None)
+    session['remember_me'] = False
     return redirect(url_for('login'))
+
+
+@app.route('/')
+def index():
+    if session.get('remember_me'):
+        session.permanent = True
+        return redirect(url_for('userview'))
+    else:
+        response = make_response(render_template('loading.html'))
+        response.headers['Refresh'] = '8; url=login'
+        return response
+
+
+@app.route('/userview')
+def userview():
+    user_id = session.get('user_id')
+    if user_id:
+        user = session.get('user')
+        return render_template('index.html', user=user, logout=True)
+    return redirect(url_for('index'))
+
 
 
 @app.before_request
@@ -39,16 +63,6 @@ def before_request():
 
     if 'user' in session:
         g.user = session['user']
-
-@app.route('/')
-def index():
-    return render_template('loading.html'),{"Refresh": "8; url=login"}
-
-@app.route('/userview')
-def userview():
-    if g.user:
-        return render_template('index.html', user=session['user'], logout=True)
-    return redirect(url_for('index'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -65,13 +79,13 @@ def login():
         if user:
             session['user_id'] = user['id']
             session['user'] = user['username']
-            if remember_me:
-                session.permanent = True
+            session['remember_me'] = remember_me
             return redirect(url_for('userview'))
         else:
             return render_template('login.html', error='Invalid username or password')
     else:
         return render_template('login.html')
+
 
 @app.route('/forgotpass')
 def forgotpass():

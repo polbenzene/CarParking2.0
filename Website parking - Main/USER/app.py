@@ -187,7 +187,8 @@ def download_qrcode():
     # Generate the QR code and save it to the downloads folder
     data = f"{user['username']},{user['platenumber']},{user['email']},{user['phone']}"
     img = qrcode.make(data)
-    img.save(qrcode_path)
+    with open(qrcode_path, 'wb') as f:
+        img.save(f)
     
     # Return a response to download the QR code image file
     return send_file(qrcode_path, as_attachment=True)

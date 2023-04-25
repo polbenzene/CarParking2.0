@@ -90,8 +90,20 @@ def before_request():
     if 'user' in session:
         g.user = session['user']
 
-@app.route('/', methods=['GET', 'POST'])
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
+
+@app.route('/')
 def index():
+    return render_template('loading.html'),{"Refresh": "8; url=login"}
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
     if request.method == 'POST':
         # clear the user session if password is incorrect or if logout button is clicked
         if request.form['password'] != 'password' or 'logout' in request.form:
@@ -100,7 +112,7 @@ def index():
             g.user = None
 
         # log the user in if password is correct
-        elif request.form['password'] == 'password':
+        elif request.form['password'] == 'password' and request.form['username'] == 'admin123':
             session['user'] = request.form['username']
             session['authenticated'] = True
             g.user = session['user']
@@ -112,24 +124,20 @@ def index():
 
     # render the login page
     session['authenticated'] = False
-    return render_template('loading.html')
+    return render_template('login.html')
+
 
 @app.route('/adminview')
 def adminview():
     # check if user is logged in
     if not g.user:
-        return redirect(url_for('index'))
+        return redirect(url_for('login'))
 
     # check if user has been authenticated
     if not session.get('authenticated', False):
-        return redirect(url_for('loading'))
+        return redirect(url_for('login'))
 
     return render_template('index.html')
-
-@app.route('/loading')
-def loading():
-    return render_template('loading.html')
-
 
 
 @app.route('/users')
@@ -160,10 +168,6 @@ def occupied():
     o = occupied
     return str(o)
 
-@app.route('/logout', methods=['POST'])
-def logout():
-    session.pop('user', None)
-    return redirect(url_for('login'))
 
 @app.route('/display_user_data')
 def display_user_data():
@@ -173,6 +177,7 @@ def display_user_data():
     data = c.fetchall()
     conn.close()
     return render_template('registeredusers.html', data=data)
+
 
 if __name__ == '__main__':
     app.run(port=5000)

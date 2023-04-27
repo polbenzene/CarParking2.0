@@ -146,7 +146,7 @@ def users():
     if 'user' not in session:
         return redirect(url_for('index'))
 
-    users_ref = db.reference('Users')
+    users_ref = db.reference('users')
     users = users_ref.get()
 
     return render_template('users.html', users=users)

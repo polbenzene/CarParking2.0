@@ -10,7 +10,7 @@ import sqlite3
 # Initialize the Firebase Admin SDK with your credentials and database URL
 cred = credentials.Certificate('C:/Users/USER/Desktop/CarParking2.0-main/Website parking - Main/ADMIN/qrscanner-3db7e-firebase-adminsdk-p6guk-f3b2aa9440.json')
 firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://qrscanner-3db7e-default-rtdb.firebaseio.com/'
+    'databaseURL': 'Please change to the given http link'
 })
 
 # counters for parking_availability

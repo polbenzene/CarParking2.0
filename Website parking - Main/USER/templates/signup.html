@@ -1,0 +1,36 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+    <div class="signup">
+        <form action="{{ url_for('login') }}">
+            <button class="backbtn" >&larr;</button> <!--not working yet-->
+        </form>
+       
+        <h1>Create Account</h1>
+        <fieldset>
+            <form method="post" action="{{ url_for('signup') }}">
+                <input class="input" id="name" type="text" name="name" placeholder=" Name: Juan A. Dela Cruz " required>
+        
+                <input class="input" id="platenumber" type="text" name="platenumber" placeholder=" Plate No.: PKT6785" pattern="[A-Z]{3}\d{4}" title="The letters must be in capital."required >
+        
+                <input class="input" id="email"  type="email" name="email" placeholder=" Email" required>
+        
+                <input class="input" id="phone" type="tel" name="phone" placeholder=" Cell No.: 09*********" pattern="09[0-9]{9}" title="Phone number must 11 numbers long and start with 09"required>
+        
+                <input class="input" id="password" type="password" name="password" placeholder=" Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.*\s).{8,}" title="Must contain at least one number, one uppercase letter, one lowercase letter, one special character, and be at least 8 or more characters long." required>
+        
+                <input class="input" id="conpassword" type="password" name="conpassword" placeholder=" Confirm password" required>
+                
+                <span>
+                    <input type="checkbox" id="showpassword" name="showpassword" onchange="togglePassword2()">Show Password<br><br>
+                </span>
+                
+                <div class="error-message" style="display:none;"></div>
+        
+                <button type="submit" class="button signupbtn">Sign up</button>
+            
+            </form>
+        </fieldset>
+    </div>
+</div>
+{% endblock %}

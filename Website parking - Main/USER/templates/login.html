@@ -1,0 +1,25 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+<div id="login">
+    <h1>Login as User</h1>
+    <fieldset>
+        <form method="post" action="{{ url_for('login') }}">
+            <input class="input" type="text" name="username" placeholder=" Name">
+            <input class="input" type="password" name="password" id="password" placeholder=" Password">
+            <span class="row-container row3">
+                <label>
+                    <input type="checkbox" id="showpassword" name="showpassword" onchange="togglePassword()">Show Password</label>
+                <label>
+                    <input type="checkbox" name="remember_me">Keep me signed in</label>               
+                <a id="forgot" href="{{ url_for('forgotpass') }}">Forgot Password?</a>
+            </span>
+            <span class="row-container row4"><span> </span>
+                <button type="submit" class="button">Login</button>
+                <span> </span>
+                <a href="{{ url_for('signup') }}" class="button signupbtn">Sign up</a>
+            </span>
+            </form>
+    </fieldset>
+</div>
+{% endblock %}

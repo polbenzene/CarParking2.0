@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Smart Parking</title>
+        <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='parking.ico') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/style.css')}}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="placement">
+            <div id="logo">
+                <img id="logo-image" src="{{url_for('static',filename='logo.png')}}">
+            </div>
+            {% block content %}            {% endblock %}
+        </div>
+    </body>
+    <script>
+        function validateForm() {
+            var newPassword = document.forms["resetPasswordForm"]["newPassword"].value;
+            var confirmPassword = document.forms["resetPasswordForm"]["confirmPassword"].value;
+            var errorDiv = document.getElementById("errorDiv");
+            
+            if (newPassword != confirmPassword) {
+            errorDiv.innerHTML = "Passwords do not match. Please try again.";
+            return false;
+            } else {
+            errorDiv.innerHTML = "";
+            return true;
+            }
+        }
+        
+        function hideErrorMessage() {
+            var errorDiv = document.getElementById("errorDiv");
+            errorDiv.innerHTML = "";
+        }
+
+        function togglePassword3() {
+            var newPasswordInput = document.getElementById("newPassword");
+            var confirmPasswordInput = document.getElementById("confirmPassword");
+            var showPasswordCheckbox = document.getElementById("showpassword");
+
+            if (showPasswordCheckbox.checked) {
+                newPasswordInput.type = "text";
+                confirmPasswordInput.type = "text";
+            } else {
+                newPasswordInput.type = "password";
+                confirmPasswordInput.type = "password";
+            }
+        }
+
+        function togglePassword2() {
+            var password = document.getElementById("password");
+            var conpassword = document.getElementById("conpassword");
+            if (document.getElementById("showpassword").checked) {
+                password.type = "text";
+                conpassword.type = "text";
+            } else {
+                password.type = "password";
+                conpassword.type = "password";
+            }
+        }
+
+        function togglePassword() {
+            var password = document.getElementById("password");
+            //var showPassword = document.getElementById("showpassword");  showPassword.checked
+            if (document.getElementById("showpassword").checked) {
+                password.type = "text";
+            } else {
+                password.type = "password";
+            }
+        }
+
+        const otpInputs = document.querySelectorAll('.six-digits input');
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('keyup', () => {
+                // If the input value is not empty and the input is not the last one
+                if (input.value !== '' && index < otpInputs.length - 1) {
+                    // Move the focus to the next input field
+                    otpInputs[index + 1].focus();
+                }
+            });
+        });
+    </script>
+</html>

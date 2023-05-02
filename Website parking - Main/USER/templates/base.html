@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Smart Parking</title>
+        <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='parking.ico') }}">
+        <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/base.css')}}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Add any CSS or JavaScript files needed -->
+    </head>
+    <body>
+        <nav>
+        {% block navLeft %}<img src="{{url_for('static',filename='logo.png')}}" alt="LOGO"> {% endblock %}<!--logo.png-->
+                {% block title %}<p>Parking Space | Live View</p> {% endblock %}
+                <div class="dropdown" style="float: right;">
+                    <button class="dropbtn"><img src="{{url_for('static',filename='user.png')}}"></button> <!--user.png-->
+                    <div class="dropdown-content">
+                    {% block links %}
+                        <a href="{{ url_for('generate_qrcode') }}">QR Code</a>
+                        <a href="{{ url_for('profile') }}">Profile</a>
+                        <a href="{{ url_for('logout') }}">Log Out</a>
+                    {% endblock %}
+                    </div>
+                </div>
+        </nav>
+        <main>
+        {% block content %}{% endblock %}
+        </main>
+        <footer>
+        Copyright 2023 
+        </footer>
+    </body>
+    <script>
+        const targetDiv = document.getElementById("form-edit");
+        const btn = document.getElementById("editbtn");
+        targetDiv.style.display = "none";
+        btn.onclick = function () {
+            if (targetDiv.style.display !== "none") {
+                targetDiv.style.display = "none";
+            } else {
+                targetDiv.style.display = "block";
+            }
+        };
+    </script>
+</html>

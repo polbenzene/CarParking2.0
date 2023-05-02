@@ -1,0 +1,27 @@
+{% extends 'index.html' %}
+	
+
+    {% block link %}
+        <a href="{{ url_for('adminview') }}">Home</a>
+    {% endblock %}
+    {% block content %}
+    <div class="info">
+        <h1>User Data</h1>
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Platenumber</th>
+            </tr>
+            {% for row in data %}
+            <tr>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+	{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+    <div class="forgotpass" >
+        <form class="back" action="{{ url_for('login') }}"> 
+            <button class="backbtn" type="submit">&larr;</button>
+        </form>
+        <h1>Reset your Password</h1>
+        <form action="/send_otp" method="POST">
+            <!--<label for="email">Email:</label>-->
+            <input class="input" type="email" id="email" placeholder="Email" name="email" required>
+            <br><br>
+    
+            <button type="submit" class="button">Send OTP</button>
+        </form>
+    </div>
+{% endblock %}
+ 

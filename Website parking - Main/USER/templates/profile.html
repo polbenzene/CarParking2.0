@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block navLeft %}
+    <form class="back" action="{{ url_for('userview') }}"> 
+        <button class="backbtn" type="submit">&larr;</button>
+    </form>
+{% endblock %}
+
+    {% block links %}
+        <a href="{{ url_for('generate_qrcode') }}">QR Code</a>
+        <a href="{{ url_for('logout') }}">Log Out</a>
+    {% endblock %}
+
+{% block title %} <p>Profile</p> {% endblock %}
+
+{% block content %}
+<div class="profile-form">
+    <h1>Welcome {{ user.username }}</h1>
+        
+    <p>Username: {{ user.username }}</p>
+        
+    <p>License Plate Number: {{ user.platenumber }}</p>
+        
+    <p>Email: {{ user.email }}</p>
+        
+    <p>Phone: {{ user.phone }}</p>
+
+    <button id="editbtn">Edit Info</button>
+    <br><br>
+
+    <fieldset id="form-edit">
+        
+        <form method="post" action="{{ url_for('profile') }}">
+        
+            <label for="email">Email:</label>
+                
+            <input type="email" name="email" value="{{ user.email }}" class="edit-input" />
+            <br><br>
+                
+            <label for="phone">Phone:</label>
+                
+            <input type="tel" name="phone" value="{{ user.phone }}" class="edit-input" />
+            <br><br>
+                
+            <label for="platenumber">License Plate Number:</label>
+                
+            <input type="text" name="platenumber" value="{{ user.platenumber }}" class="edit-input" />
+            <br><br>
+                
+            <input class="btn" type="submit" value="Update" />
+        </form>
+    </fieldset>
+</div>
+<!--<form method="post" action="{{ url_for('generate_qrcode') }}">
+<button type="submit" class="btn btn-primary">Generate QR Code</button>
+</form>-->
+{% endblock %}

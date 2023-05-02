@@ -6,6 +6,7 @@ import qrcode
 import base64
 import smtplib
 import random
+import requests
 from email.message import EmailMessage
 from io import BytesIO
 from pathlib import Path
@@ -50,9 +51,11 @@ def index():
 @app.route('/userview')
 def userview():
     user_id = session.get('user_id')
+    response = requests.get('http://127.0.0.1:5000/count')
+    count = response.text
     if user_id:
         user = session.get('user')
-        return render_template('index.html', user=user, logout=True)
+        return render_template('index.html', user=user, logout=True, count=count)
     return redirect(url_for('index'))
 
 
@@ -157,7 +160,7 @@ def profile():
 
     return render_template('profile.html', user=user)
 
-@app.route('/qrcode',methods=['POST'])
+@app.route('/qrcode') #,methods = ['POST']
 def generate_qrcode():
     # Generate the data and the QR code image
     db = get_db()
@@ -194,9 +197,9 @@ def download_qrcode():
     return send_file(qrcode_path, as_attachment=True)
 
 
-EmailAdd = 'carparkingteam1@gmail.com'
-Pass = 'fqwmjbmhpcdxiohd'
-Server = 'smtp.gmail.com'
+EmailAdd = '********'
+Pass = '***********'
+Server = '***********'
 
 @app.route('/send_otp', methods=['POST'])
 def send_otp():
@@ -242,7 +245,16 @@ def verify_otp():
         # OTP is invalid, show an error message
         error = 'Invalid OTP, please try again.'
         return render_template('otpverify.html', error=error)
-    
+
+
+@app.route('/count')
+def get_count():
+    # get the current count value from the external Flask app
+    response = requests.get('http://127.0.0.1:5000/count')
+    count = response.text
+
+    # return the count value as a response
+    return count
 
 if __name__ == '__main__':
     app.run(port=5001)

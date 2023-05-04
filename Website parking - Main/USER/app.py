@@ -24,7 +24,7 @@ def get_db():
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
         db.row_factory = sqlite3.Row
-        db.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE NOT NULL, password TEXT NOT NULL, email TEXT NOT NULL, phone TEXT NOT NULL, platenumber TEXT NOT NULL)')
+        db.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL, password TEXT NOT NULL, email TEXT NOT NULL, phone TEXT NOT NULL, platenumber TEXT NOT NULL)')
         db.commit()
     return db
 
@@ -95,6 +95,7 @@ def forgotpass():
     return render_template('forgotpass.html')
 
 
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -110,6 +111,20 @@ def signup():
 
         db = get_db()
 
+        # Check if email already exists
+        result_email = db.execute('SELECT id FROM users WHERE email = ?', (email,)).fetchone()
+
+        # Check if plate number already exists
+        result_platenumber = db.execute('SELECT id FROM users WHERE platenumber = ?', (platenumber,)).fetchone()
+
+        if result_email is not None and result_platenumber is not None:
+            error_message = 'Email and plate number already exist'
+            return render_template('signup.html', error=error_message)
+        elif result_email is not None:
+            return render_template('signup.html', error='Email already exists')
+        elif result_platenumber is not None:
+            return render_template('signup.html', error='Plate number already exists')
+
         try:
             db.execute('INSERT INTO users (username, platenumber, email, phone, password) VALUES (?, ?, ?, ?, ?)', (username, platenumber, email, phone, password))
             db.commit()
@@ -117,9 +132,10 @@ def signup():
             return redirect(url_for('login'))
 
         except sqlite3.IntegrityError:
-            return render_template('signup.html', error='Username already exists')
+            return render_template('signup.html', error='Error: Could not create user')
 
     return render_template('signup.html')
+
 
 @app.route('/reset_password', methods=['GET','POST'])
 def reset_password():

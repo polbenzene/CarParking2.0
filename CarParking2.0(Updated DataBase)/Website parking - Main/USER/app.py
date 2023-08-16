@@ -20,9 +20,7 @@ app.secret_key = os.urandom(24)
 
 
 # Initialize Firebase
-cred = credentials.Certificate('C:/Users/USER/Desktop/CarParking2.0(Updated DataBase)/Website parking - Main/ADMIN/qrscanner-3db7e-firebase-adminsdk-p6guk-6a6f4a9082.json')
-firebase_admin.initialize_app(cred)
-db = firestore.client()
+
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():

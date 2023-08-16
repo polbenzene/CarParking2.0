@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/login.css')}}"><!---->
+        <title>Smart Parking</title>
+        <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='parking.ico') }}">
+        <script type="text/javascript">
+        function validateForm() {
+            var username = document.forms["loginForm"]["username"].value;
+            var password = document.forms["loginForm"]["password"].value;
+            var usernameError = document.getElementById("usernameError");
+            var valid = true;
+
+            if (username != "admin123" || password != "password") {
+                usernameError.innerHTML = "Invalid username or password.";
+                document.forms["loginForm"]["username"].style.border = "2px solid red";
+                document.forms["loginForm"]["password"].style.border = "2px solid red";
+                valid = false;
+            } else {
+                usernameError.innerHTML = "";
+                document.forms["loginForm"]["username"].style.border = "initial";
+                document.forms["loginForm"]["password"].style.border = "initial";
+            }
+            
+            return valid;
+        }
+        function clearError(errorId) {
+        var errorElement = document.getElementById(errorId);
+        var inputElement = errorElement.nextElementSibling;
+
+        errorElement.innerHTML = "";
+        document.forms["loginForm"]["username"].style.border = "initial";
+        document.forms["loginForm"]["password"].style.border = "initial";
+    }
+
+
+        </script>
+    </head>
+    <body>
+        <div id="placement">
+            <div id="logo">
+                <img id="logo-image" src="{{url_for('static',filename='logo.png')}}">
+            </div>
+            <div id="login">
+                <h1>Login as Admin</h1>
+                <fieldset>
+                    <form method="post" name="loginForm" onsubmit="return validateForm()">
+                        <input class="input" type="text" name="username" placeholder="Username" oninput="clearError('usernameError')" required>
+                        <input class="input" type="password" name="password" placeholder="Password" oninput="clearError('usernameError')" required>                       
+                        <span id="usernameError" class="error" style="color: red;"></span>                     
+                    <button type="submit" class="button is-success">Login</button>
+                    </form>
+                </fieldset>
+            </div>
+        </div>
+    </body>
+</html>

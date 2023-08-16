@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/style.css')}}"><!---->
+        <title>Smart Parking</title>
+        <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='parking.ico') }}">
+    </head>
+    <body>
+        <nav>
+            <img src="{{url_for('static',filename='logo.png')}}" alt="LOGO"> <!--logo.png-->
+            <p>BatStateU TNEU Parking - Admin View</p>
+            <div class="dropdown" style="float: right;">
+                <button class="dropbtn"><img src="{{url_for('static',filename='user.png')}}"></button> <!--user.png-->
+                <div class="dropdown-content">
+                    {% block link %}
+                    <a href="{{ url_for('display_user_data') }}">User Database</a>
+                    {% endblock %}
+                    <hr>
+                    <a href="{{ url_for('logout') }}">Log Out</a>
+                </div>
+            </div>
+        </nav>
+        <main>
+            {% block content %}
+            <div class="content-layout">
+                <div class="tab">
+                    <a href = "{{ url_for('adminview') }}"><button id="live" >Live View</button></a>
+                    <a href = "{{ url_for('users') }}"><button id="list" >Users</button></a>  
+                </div>
+                <div class = "video-info">
+                    <div class="reloaded">
+                        <div class="open">
+                            <div class="indicator"><div class="indicatorGreen"></div></div>
+                            <p>Available Space: <span id="available-space"></span></p>
+                        </div>
+                        <div class="taken">
+                            <div class="indicator"><div class="indicatorRed"></div></div>
+                            <p>Occupied Space:<span id="occupied-space"></span></p>
+                        </div>
+                        <div class="total"><p>Total Spaces: &nbsp&nbsp&nbsp24</p></div>    
+                    </div>
+                    <div class="vidContainer">
+                        <img id="videoFeed" src="{{ url_for('video') }}"/>
+                    </div>
+                </div>
+            </div>
+            {% endblock%}
+        </main>
+    </body>
+</html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    setInterval(function() {
+        $.get("/count", function(data) {
+        $("#available-space").text(data);
+        });
+        $.get("/occupied", function(data) {
+        $("#occupied-space").text(data);
+        });
+    }, 500);
+});
+</script>

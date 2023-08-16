@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+<body>
+    {% block navLeft %}
+    <form class="back" action="{{ url_for('userview') }}">
+        <button class="backbtn" type="submit">&larr;</button>
+    </form>
+    {% endblock %}
+
+    {% block links %}
+        <a href="{{ url_for('profile') }}">Profile</a>
+        <a href="{{ url_for('logout') }}">Log Out</a>
+    {% endblock %}
+
+    {% block title %}<p>QR Code</p> {% endblock %}
+
+    {% block content %}
+    <div class="qrcode-container">
+        <span><img src="data:image/png;base64,{{ img_b64 }}" alt="QR Code"></span>
+        <span>
+            <br><br>
+            <form action="/download_qrcode" method="post">
+                <button type="submit">Download QR Code</button>
+            </form>
+        </span>
+        
+    </div>
+    {% endblock %}
+</body>

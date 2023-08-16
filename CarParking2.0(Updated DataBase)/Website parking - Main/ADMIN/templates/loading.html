@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Parking</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='parking.ico') }}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/loading.css')}}">
+    <script>
+      setTimeout(function() {
+        document.getElementById('qrLogo').setAttribute('src', '{{ url_for("static", filename="loading.png") }}');
+      }, 3000);
+
+      setTimeout(function() {
+        var progressBarContainer = document.getElementById('progress-bar-container');
+        progressBarContainer.style.display = 'block'; // show the progress bar container
+        var progressBar = document.getElementById('progress-bar');
+        var progress = 0;
+        var interval = setInterval(function() {
+            progress += 10;
+            progressBar.style.width = progress + '%';
+            if (progress >= 100) {
+            clearInterval(interval);
+            document.getElementById('qrLogo').style.display = 'none'; // hide the new image
+            document.getElementById('progress-bar-container').style.display = 'none'; // hide the progress bar container
+            document.getElementById('placement').style.display = 'block'; // show the login page
+            }
+        }, 500);
+        }, 3000);
+    </script>
+  </head>
+  <body>
+    <div class="splash-screen">
+      <div class="image-holder">
+        <img id="qrLogo" src="{{url_for('static',filename='logo.png')}}" alt="My Website Logo">
+      </div>
+      <div id="progress-bar-container">
+        <div id="progress-bar"></div>
+        <div id="progress-text">Loading...</div>
+      </div>
+    </div>
+    
+    {% include 'login.html' %}
+    
+  </body>
+</html>

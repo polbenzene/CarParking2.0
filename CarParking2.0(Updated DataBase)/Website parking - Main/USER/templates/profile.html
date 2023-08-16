@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block navLeft %}
+    <form class="back" action="{{ url_for('userview') }}"> 
+        <button class="backbtn" type="submit">&larr;</button>
+    </form>
+{% endblock %}
+
+{% block links %}
+    <a href="{{ url_for('generate_qrcode') }}">QR Code</a>
+    <a href="{{ url_for('logout') }}">Log Out</a>
+{% endblock %}
+
+{% block title %}
+    <p>Profile</p>
+{% endblock %}
+
+{% block content %}
+<div class="profile-form">
+    <h1>Welcome {{ user.username }}</h1>
+        
+    <p>Username: {{ user.username }}</p>
+        
+    <p>License Plate Number: {{ user.platenumber }}</p>
+        
+    <p>Email: {{ user.email }}</p>
+        
+    <p>Phone: {{ user.phone }}</p>
+
+    <button id="editbtn">Edit Info</button>
+    <br><br>
+
+    <fieldset id="form-edit">
+        <form method="post" action="{{ url_for('profile') }}" onsubmit="return validateForm()">
+            <label for="email">Email:</label>
+            <input type="email" name="email" value="{{ user.email }}" class="edit-input" required>
+            <br><br>
+                
+            <label for="phone">Phone:</label>
+            <input type="tel" name="phone" value="{{ user.phone }}" class="edit-input" required>
+            <br><br>
+                
+            <label for="platenumber">License Plate Number:</label>
+            <input type="text" name="platenumber" value="{{ user.platenumber }}" class="edit-input" required>
+            <br><br>
+                
+            <input class="btn" type="submit" value="Update" />
+        </form>
+    </fieldset>
+</div>
+
+<script>
+    function validateForm() {
+        var emailInput = document.getElementsByName("email")[0];
+        var phoneInput = document.getElementsByName("phone")[0];
+        var plateNumberInput = document.getElementsByName("platenumber")[0];
+        
+        // Email validation
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(emailInput.value)) {
+            alert("Please enter a valid email address.");
+            emailInput.focus();
+            return false;
+        }
+        
+        // Phone validation
+        var phonePattern = /^09\d{9}$/;
+        if (!phonePattern.test(phoneInput.value)) {
+            alert("Please enter a valid phone number starting with 09.");
+            phoneInput.focus();
+            return false;
+        }
+        
+        // License plate number validation
+        var plateNumberPattern = /^[A-Z]{3}\d{4}$/;
+        if (!plateNumberPattern.test(plateNumberInput.value)) {
+            alert("Please enter a valid license plate number.");
+            plateNumberInput.focus();
+            return false;
+        }
+        
+        return true; // Proceed with form submission
+    }
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base2.html' %}
+
+{% block content %}            
+    <div id="otp-form">
+        <form action="{{ url_for('login') }}">
+            <button class="backbtn" >&larr;</button> 
+        </form>
+        <h1>OTP was sent to your email</h1>
+        <h4>Please check your inbox or spam</h4>
+        <form action="/verify_otp" method="POST">
+            
+            <span class="six-digits">
+                <input type="text" id="number1" name="number1" maxlength="1" required>
+    
+                <input type="text" id="number2" name="number2" maxlength="1" required>
+    
+                <input type="text" id="number3" name="number3" maxlength="1" required>
+                
+                <input type="text" id="number4" name="number4" maxlength="1" required>
+                
+                <input type="text" id="number5" name="number5" maxlength="1" required>
+                
+                <input type="text" id="number6" name="number6" maxlength="1" required>
+            </span>
+            {% if prompt_message %}
+            <p class="error-message">{{ prompt_message }}</p>
+            {% endif %}
+            <br><br>
+
+            <button type="submit" id="submit-otp-btn" class="button">Submit</button>
+        </form>
+    </div>
+<style>
+    .error-message {
+    color: red;
+}
+
+</style>
+{% endblock %}
+
+    

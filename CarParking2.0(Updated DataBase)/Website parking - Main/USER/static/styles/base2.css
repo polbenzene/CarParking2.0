@@ -1,0 +1,182 @@
+body{
+    margin: 0px;
+    padding: 0px;
+    background-color: #EEF0F2;  
+    font-family: 'Noto Serif', 'Serif';   }
+
+.placement{
+    margin: auto;    }
+
+#logo{
+    width: auto;
+    height: auto;   }
+
+#logo-image{
+    width: 15%;
+    height: auto;   
+    margin: 10vh calc((100% - 15%)/2);
+    border-radius: 100%;
+    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2);    }
+
+#login{
+    margin: -11% calc((100vw - 60vw)/2) 0px calc((100vw - 60vw)/2);
+    background-color: #C4CAD0;
+    text-align: center;    
+    width: 60vw;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2);   }
+
+#login h1{
+        text-align: center;    
+        padding-top: 10%;    }
+
+    #login fieldset{
+        border: none;    }
+
+    #login fieldset form{
+        display: grid;
+        grid-template-rows: auto auto auto auto;    
+        row-gap: 10px;    }
+
+    .input{
+        background-color: white;
+        width: 30vw;
+        height: 30px;
+        margin: auto;
+        border: none;
+        border-radius: 8px;
+        font-family: 'Noto Serif', 'Serif';    }
+
+.edit-input{
+    border: none;
+    border-radius: 8px;   }
+
+
+    .button{
+        background-color: #23022E;
+        color: white;
+        font: 15px 'Noto Serif';
+        width: 20vw;
+        border: none;
+        border-radius: 12px;
+        padding: 10px 0px 16px 0px;
+        box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2)        }
+
+    .button.signup{
+        background-color:#573280;
+        text-decoration: none;    }
+
+    .row-container{
+        display: grid;  }
+
+    .row3{
+        grid-template-columns: auto auto auto;    
+        font-size: 14px;    }    
+
+    .row3 #forgot{
+        text-decoration: none;
+        color: black;
+        font-weight: bold;    }
+
+    .row4{
+        grid-template-columns: auto auto auto auto;
+        margin: 5vh;    }
+
+    div.signup{
+        margin: -9% calc((100vw - 60%)/2) 0px calc((100vw - 60%)/2);
+        background-color: #C4CAD0;
+        text-align: center;    
+        width: 60%;
+        height: auto;
+        border-radius: 20px;
+        box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2);   }
+
+    .signup h1{
+        text-align: center;    
+        padding-top: 10%;    }
+
+    .signup-field{
+        border: none;    }
+
+    .signup-field form{
+        display: grid;
+        grid-template-rows: auto auto auto auto auto auto auto;    
+        row-gap: 10px;    }
+
+    input, .input{
+        background-color: white;
+        width: 30vw;
+        height: 30px;
+        margin: auto;
+        border: none;
+        border-radius: 8px;
+        font-family: 'Noto Serif', 'Serif';    }
+        
+    /*otp verify*/
+    .hidden {
+        display: none;    }
+        
+@media screen and (max-width: 800px){
+    *{  background-color: #C4CAD0;    }
+
+    #logo-image{
+        width: 40vw;
+        height: auto;  
+        margin: 5vh calc((100% - 40vw)/2);    }
+
+    #login{
+        margin: auto;
+        box-shadow: none;    }
+
+    #login fieldset{
+        margin: 0;
+        padding: 0;    }
+
+    #login fieldset form{
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto auto auto auto;
+        justify-items: center;
+        row-gap: 1vh;    }
+
+    input, .input{
+        width: 50vw;    }
+
+            .row3{
+                display: grid;
+                grid-template-columns: auto;
+                grid-template-rows: auto auto auto;    }
+
+            .row3 #forgot{
+                padding-top: 5vh;
+                text-decoration: none;
+                color: black;
+                font-weight: bold;    }
+
+            .row4{
+                display: grid;
+                grid-template-rows: auto;
+                grid-template-columns: auto auto auto auto;    }
+            
+    .signup{
+        margin: 0 calc(100vw - 60%)/2;
+        box-shadow: none;
+        margin: auto;    }
+
+    .signup h1{
+        padding: 0;
+        font-size: 3vh;    }
+
+    .signup-field form{
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto auto auto auto;
+        justify-items: center;
+        row-gap: 1vh;    }
+
+    .signup-field .button{
+        margin-top: 40px;    }
+}
+
+

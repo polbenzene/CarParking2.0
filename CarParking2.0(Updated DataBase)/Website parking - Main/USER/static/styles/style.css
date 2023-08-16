@@ -1,0 +1,204 @@
+body{
+    margin: 0px;
+    padding: 0px;
+    background-color: #EEF0F2;  
+    font-family: 'Noto Serif', 'Serif';   }
+
+.placement{
+    width: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);   }
+
+#logo-image{
+    margin-bottom: -60px;
+    margin-left: calc((100% - 180px)/2);
+    width: 180px;
+    height: 180px;
+    border-radius: 100%;
+    box-shadow: 2px 2px 4px 2px rgba(0,0,0,0.2);
+    z-index: 2;    }   
+
+/*login style*/
+
+#login, .signup, .forgotpass, #otp-form, .reset, .reset-success{  /*login and signup style*/
+    background-color: #C4CAD0;
+    text-align: center;    
+    width: 800px;
+    height: auto;
+    margin: 0;
+    border-radius: 20px;
+    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2);    }
+
+#login h1 {
+    padding-top: 40.8px;   }
+    
+
+#login fieldset, .signup fieldset{
+    border: none;    }
+
+#login fieldset form{
+    display: grid;
+    grid-template-rows: auto auto auto auto;    
+    row-gap: 10px;    }
+
+.input{
+    background-color: white;
+    width: 30vw;
+    height: 30px;
+    margin: auto;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Noto Serif', 'Serif';    }
+
+.button, #editbtn{ /* used throughout as default button style*/
+    background-color: #23022E;
+    color: white;
+    font: 15px 'Noto Serif';
+    width: auto;
+    border: none;
+    border-radius: 9px;
+    padding: 8px;
+    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2)        }
+
+.button.signupbtn{
+    background-color:#573280;
+    text-decoration: none;    }
+
+.row-container{
+    display: grid;  }
+
+.row3{
+    grid-template-columns: auto auto auto;    
+    font-size: 14px;    }    
+
+.row3 #forgot{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;    }
+
+.row4{
+    grid-template-columns: auto auto auto auto;
+    margin: 5vh;    }
+    
+/*in sign up and others*/
+    
+.backbtn{
+    border: none;
+    font-size: 30px;
+    font-weight: bold;
+    position: relative;
+    left: -45%;
+    transform: translate(-50%, -50%);    }
+
+.backbtn:hover{
+    cursor: pointer;    }
+
+/*signup*/
+
+.signup form{
+    display: grid;
+    grid-template-rows: auto auto auto auto auto auto auto;    
+    row-gap: 10px;    }
+
+.signup button  {
+    margin: auto;    }    
+
+
+/*forgotpass*/
+.forgotpass button, #otp-form button, .reset button, .reset-success button{
+    margin-bottom: 15px;    }
+
+/*otp
+#otp-form{
+    display: flex;
+    justify-content: center;    }*/
+
+
+.six-digits{
+    display: grid;
+    grid-template-columns: 30px 30px 30px 30px 30px 30px;
+    column-gap: 18px;
+    justify-content: center;    }
+
+.six-digits input{
+    border: none;
+    border-radius: 4px;    }
+
+@media screen and (max-width: 800px){
+    *{  background-color: #C4CAD0;    }
+
+    #logo-image{
+        width: 40vw;
+        height: auto;  
+        margin: 5vh calc((100% - 40vw)/2);    }
+
+    #login, .signup, .forgotpass, #otp-form, .reset, .reset-success{
+        margin: auto;
+        width: auto;
+        box-shadow: none;    }
+
+    #login fieldset{
+        margin: 0;
+        padding: 0;    }
+
+    #login fieldset form{
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto auto auto auto;
+        justify-items: center;
+        row-gap: 1vh;    }
+
+    .input{
+        background-color: white;
+        width: 60vw;
+        margin: auto;
+        border: none;
+        border-radius: 8px;
+        font-family: 'Noto Serif', 'Serif';    }
+
+    .row3{
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto auto auto;    }
+
+    .row3 #forgot{
+        padding-top: 5vh;
+        text-decoration: none;
+        color: black;
+        font-weight: bold;    }
+
+    .row4{
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-columns: auto auto auto auto;    }
+
+    /**/
+    .backbtn{   display: none;}
+    
+    /*.signup h1, #otp-form{
+        padding: 0;
+        font-size: 3vh;    }
+    signup styles*/
+
+    
+    .signup fieldset form{
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto auto auto auto;
+        justify-items: center;
+        row-gap: 1vh;    }
+
+    .signup-field .button{
+        margin-top: 40px;    }
+
+    /**/
+    .six-digits input{
+        border: none;
+        width: 20px;
+        background-color: white;
+        margin: auto;
+        border-radius: 8px;
+        font-family: 'Noto Serif', 'Serif';        }
+}

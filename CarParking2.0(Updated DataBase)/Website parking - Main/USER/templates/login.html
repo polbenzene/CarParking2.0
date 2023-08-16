@@ -1,0 +1,59 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+<script>
+    function removeError() {
+        document.querySelectorAll('.invalid-input').forEach(function(input) {
+            input.classList.remove('invalid-input');
+        });
+        document.querySelectorAll('.error-message').forEach(function(message) {
+            message.style.display = 'none';
+        });
+        
+        // Hide warning icons
+        document.querySelectorAll('.warning-icon').forEach(function(icon) {
+            icon.style.display = 'none';
+        });
+    }
+</script>
+
+<div id="login">
+    <h1>Login as User</h1>
+    <fieldset>
+        <form method="post" action="{{ url_for('login') }}">
+            <div class="input-container">
+                <input class="input {% if is_invalid %}invalid-input{% endif %}" type="email" name="email" placeholder="Email" oninput="removeError()">
+                {% if is_invalid %}
+                <i class="fas fa-exclamation-triangle warning-icon" style="color: red;"></i>
+                {% endif %}
+            </div>
+            <div class="input-container">
+                <input class="input {% if is_invalid %}invalid-input{% endif %}" type="password" name="password" id="password" placeholder="Password" oninput="removeError()">
+                {% if is_invalid %}
+                <i class="fas fa-exclamation-triangle warning-icon" style="color: red;"></i>
+                {% endif %}
+            </div>
+            {% if is_invalid %}
+            <p class="error-message" style="color: red;">Invalid name or password</p>
+            {% endif %}
+            <span class="row-container row3">
+                <label>
+                    <input type="checkbox" id="showpassword" name="showpassword" onchange="togglePassword()">Show Password</label>
+                <label>
+                    <input type="checkbox" name="remember_me">Keep me signed in</label>               
+                <a id="forgot" href="{{ url_for('forgotpass') }}">Forgot Password?</a>
+            </span>
+            <span class="row-container row4"><span> </span>
+                <button type="submit" class="button">Login</button>
+                <span> </span>
+                <a href="{{ url_for('signup') }}" class="button signupbtn">Sign up</a>
+            </span>
+        </form>
+    </fieldset>
+</div>
+<style>
+    .invalid-input {
+        border: 2px solid red;
+    }
+</style>
+{% endblock %}

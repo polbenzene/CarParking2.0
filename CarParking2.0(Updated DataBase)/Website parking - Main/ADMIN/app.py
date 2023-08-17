@@ -7,9 +7,9 @@ import os
 import firebase_admin
 
 
-cred = credentials.Certificate('C:/Users/USER/Desktop/CarParking2.0(Updated DataBase)/Website parking - Main/ADMIN/qrscanner-3db7e-firebase-adminsdk-p6guk-6a6f4a9082.json')
+///////////////////////////////////////////////////////
 firebase_admin.initialize_app(cred)
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/USER/Desktop/CarParking2.0(Updated DataBase)/Website parking - Main/ADMIN/qrscanner-3db7e-firebase-adminsdk-p6guk-6a6f4a9082.json"
+//////////////////////////////////////////////////////
 
 db = firestore.Client()
 

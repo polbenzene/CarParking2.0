@@ -1,7 +1,6 @@
-from flask import Flask, render_template, session, request, g 
+from flask import Flask, flash, render_template, session, request, g 
 from flask import redirect, url_for, send_file, make_response
 import os
-import sqlite3
 import qrcode
 import base64
 import smtplib
@@ -12,7 +11,7 @@ from io import BytesIO
 from pathlib import Path
 
 import firebase_admin
-from firebase_admin import credentials, firestore, auth
+from firebase_admin import credentials, firestore
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -20,7 +19,9 @@ app.secret_key = os.urandom(24)
 
 
 # Initialize Firebase
-
+////////////////////////////////////
+firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
@@ -133,6 +134,67 @@ def signup():
 @app.route('/forgotpass')
 def forgotpass():
     return render_template('forgotpass.html')
+
+@app.route('/reset_password', methods=['GET', 'POST'])
+def reset_password():
+    if request.method == 'POST':
+        email = request.form['email']
+        new_password = request.form['newPassword']
+
+        # Query Firestore to find a user with the given email
+        users_ref = db.collection('user_data')  # Use the correct collection name
+        query = users_ref.where('email', '==', email).limit(1)
+        query_result = query.stream()
+
+        user_doc = None
+        for doc in query_result:
+            user_doc = doc
+            break
+
+        if not user_doc:
+            flash('Email address not found!')
+            return redirect(url_for('reset_password'))
+        
+        # Update the user's password in Firestore
+        user_doc.reference.update({
+            'password': new_password
+        })
+
+        return render_template('resetpass2.html')
+    
+    return render_template('resetpassword.html')
+
+EmailAdd = '**********'
+Pass = '***********'
+Server = '***********'
+
+@app.route('/send_otp', methods=['POST'])
+def send_otp():
+    # Generate a random OTP code
+    otp_code = str(random.randint(100000, 999999))
+
+    # Create a new EmailMessage object
+    msg = EmailMessage()
+
+    # Set the sender, recipient, and subject of the email
+    msg['From'] = EmailAdd
+    msg['To'] = request.form['email']
+    msg['Subject'] = 'Your OTP Code'
+
+    # Set the content of the email to the OTP code
+    msg.set_content(f'Your OTP code is: {otp_code}')
+
+    # Send the email using SMTP
+    with smtplib.SMTP(Server, 587) as smtp:
+        smtp.ehlo()
+        smtp.starttls()
+        smtp.login(EmailAdd, Pass)
+        smtp.send_message(msg)
+
+    #stores the otp code for verification later
+    session['otp'] = otp_code
+    return render_template('otpverify.html')
+
 
 @app.route('/verify_otp', methods=['POST'])
 def verify_otp():
